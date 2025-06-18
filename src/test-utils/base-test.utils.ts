@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { vi } from 'vitest';
 
 /**
  * Base testing utilities for creating consistent test modules and mocks
@@ -28,9 +29,12 @@ export class BaseTestUtils {
    * @param mockMethods Optional methods to mock
    * @returns Partially mocked service
    */
-  static createMockService(mockMethods: Record<string, jest.Mock> = {}): any {
+  static createMockService(mockMethods: Record<string, any> = {}): any {
     return {
-      ...mockMethods,
+      ...Object.keys(mockMethods).reduce((acc, key) => {
+        acc[key] = vi.fn(mockMethods[key]);
+        return acc;
+      }, {} as Record<string, any>)
     };
   }
 
@@ -60,13 +64,13 @@ export class BaseTestUtils {
    */
   static createMockRepository() {
     return {
-      create: jest.fn(),
-      save: jest.fn(),
-      find: jest.fn(),
-      findOne: jest.fn(),
-      update: jest.fn(),
-      delete: jest.fn(),
-      remove: jest.fn(),
+      create: vi.fn(),
+      save: vi.fn(),
+      find: vi.fn(),
+      findOne: vi.fn(),
+      update: vi.fn(),
+      delete: vi.fn(),
+      remove: vi.fn(),
     };
   }
 }
