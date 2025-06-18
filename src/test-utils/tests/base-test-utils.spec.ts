@@ -1,5 +1,4 @@
-import { Test } from '@nestjs/testing';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { BaseTestUtils, deepCopy, wait } from '../base-test.utils';
 
 describe('BaseTestUtils', () => {
@@ -21,7 +20,7 @@ describe('BaseTestUtils', () => {
 
   describe('createMockService', () => {
     it('should create a mock service with provided methods', () => {
-      const mockMethod = jest.fn();
+      const mockMethod = vi.fn();
       const mockService = BaseTestUtils.createMockService({ testMethod: mockMethod });
 
       expect(mockService.testMethod).toBe(mockMethod);
